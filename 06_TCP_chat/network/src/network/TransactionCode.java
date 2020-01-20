@@ -1,0 +1,6 @@
+package network;
+
+public enum TransactionCode {
+    CS_IDENTIFICATION, CS_MESSAGE,
+    SC_REAUTHORIZATION, SC_CONFIRMATION, SC_NOTIFICATION, SC_MESSAGE
+}

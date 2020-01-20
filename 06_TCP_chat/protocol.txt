@@ -1,0 +1,25 @@
+1. A client C connects
+
+_auth:	C -> CS_IDENTIFICATION\fnickname\n -> Server
+	if nickname exists on Server
+		Server -> SC_REAUTHORIZATION\fnickname already exists. Try again\n -> C
+		goto _auth
+	else
+		Server stores [ (ip, port) <=> nickname ]
+		Server -> SC_CONFIRMATION\n -> C
+		Server -> SC_NOTIFICATION\fnickname has connected\n -> all clients
+
+2. A client C (nickname) has disconnected
+
+	Server deletes [ (ip, port) <=> nickname ]
+	Server -> SC_NOTIFICATION\fnickname has disconnected\n -> all clients
+
+3. A client C (nickname) sends a message to to_whom1, to_whom2, ..., to_whomn
+
+	C -> CS_MESSAGE\fto_whom1\fto_whom2\f...\fto_whomn\bmessage\n -> Server
+	Server -> SC_MESSAGE\fnickname\fmessage\n -> C + (by nicknames, who exists) to_whom1, to_whom2, ..., to_whomn
+
+4. A client C (nickname) sends a message to everybody
+
+	C -> CS_MESSAGE\f\bmessage\n -> Server
+	Server -> SC_MESSAGE\fnickname\fmessage\n -> all clients
